@@ -1,0 +1,12 @@
+一、安装说明
+以管理员身份运行cmd
+cd /d [本目录路径]
+@dist.finalname@.exe install
+
+二、卸载说明
+以管理员身份运行cmd
+cd /d [本目录路径]
+@dist.finalname@.exe uninstall
+
+三、配置说明
+@dist.finalname@.xml里可以配置启动参数

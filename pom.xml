@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>blvyoucan</groupId>
+    <artifactId>SpringBootWinSW</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.13.RELEASE</version>
+    </parent>
+    
+    <properties>
+        <start-class>sample.Application</start-class>
+        <stop-class>sample.ApplicationShutdown</stop-class>
+        
+        <dist.finalname>${project.artifactId}</dist.finalname>
+        <dist.dir>${project.build.directory}/dist</dist.dir>
+        <dist.project.id>${dist.finalname}</dist.project.id>
+        <dist.project.name>${dist.finalname}</dist.project.name>
+        <dist.project.description>${dist.finalname}</dist.project.description>
+        <dist.jmx.port>50201</dist.jmx.port>
+        
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        
+        <skipTests>true</skipTests>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <finalName>${dist.finalname}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <!-- 添加index则不从mainfest中读取classpath，而是从Index.list中读取 -->
+                        <!-- <index>true</index> -->
+                        <manifest>
+                            <mainClass>${start-class}</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>./</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${dist.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/dist</directory>
+                                    <filtering>true</filtering>
+                                </resource>>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>  
+                <artifactId>maven-assembly-plugin</artifactId>  
+                <configuration>  
+                    <!-- not append assembly id in release file name -->  
+                    <appendAssemblyId>false</appendAssemblyId>  
+                    <descriptors>  
+                        <descriptor>src/main/assembly/windows.xml</descriptor>
+                    </descriptors>  
+                </configuration>  
+                <executions>
+                    <execution>  
+                        <id>make-assembly</id>
+                        <phase>package</phase>  
+                        <goals>  
+                            <goal>single</goal>  
+                        </goals>  
+                    </execution>  
+                </executions>  
+            </plugin>
+        </plugins>
+    </build>
+</project>

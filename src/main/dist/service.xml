@@ -1,0 +1,26 @@
+<service>
+	<id>@dist.project.id@</id>
+	<name>@dist.project.name@</name>
+	<description>@dist.project.description@</description>
+	<workingdirectory>%BASE%\</workingdirectory>
+	<logpath>%BASE%\logs</logpath>
+	<logmode>rotate</logmode>
+    
+    <onfailure action="restart" delay="120 sec"/>
+    
+    <executable>java</executable>
+    <startargument>-Dfile.encoding=UTF-8</startargument>
+    <startargument>-Dspring.application.admin.enabled=true</startargument>
+    <startargument>-Dcom.sun.management.jmxremote.port=@dist.jmx.port@</startargument>
+    <startargument>-Dcom.sun.management.jmxremote.authenticate=false</startargument>
+    <startargument>-Dcom.sun.management.jmxremote.ssl=false </startargument>
+    <startargument>-cp</startargument>
+    <startargument>@dist.finalname@.jar</startargument>
+    <startargument>@start-class@</startargument>
+    
+    <stopexecutable>java</stopexecutable>
+    <stopargument>-cp</stopargument>
+    <stopargument>@dist.finalname@.jar</stopargument>
+    <stopargument>@stop-class@</stopargument>
+    <stopargument>@dist.jmx.port@</stopargument>
+</service>
