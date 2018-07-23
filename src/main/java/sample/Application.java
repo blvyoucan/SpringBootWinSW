@@ -17,7 +17,7 @@ public class Application {
     
     @ManagedOperation
     public void shutdown() {
-        SpringApplication.exit(context);
-        System.exit(0);
+        int exitCode = SpringApplication.exit(context);
+        System.exit(exitCode);
     }
 }
